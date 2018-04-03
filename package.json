@@ -1,15 +1,15 @@
 {
-  "name": "hmh_test_zomato_cities",
-  "description": "test for the cities endpoint on zomato",
-  "version": "0.0.1",
-  "author": "Mihai Niculae <niculaemc@gmail.com>",
-  "scripts": {
-    "test": "mocha"
-  },
-  "dependencies": {},
-  "license": "UNLICENSED",
-  "private": true,
-  "devDependencies": {
-    "mocha": "^5.0.5"
-  }
+    "name": "hmh_test_zomato_cities",
+    "description": "test for the cities endpoint on zomato",
+    "version": "0.0.1",
+    "author": "Mihai Niculae <niculaemc@gmail.com>",
+    "scripts": {
+        "test": "mocha"
+    },
+    "dependencies": {},
+    "license": "UNLICENSED",
+    "private": true,
+    "devDependencies": {
+        "mocha": "^5.0.5"
+    }
 }

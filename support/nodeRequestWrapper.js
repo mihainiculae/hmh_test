@@ -1,20 +1,36 @@
-var apiKey = require('../apiKey');
+var apiKey = require("../apiKey");
 
 module.exports.testBuilder = testBuilder;
-module.exports.doRequest = setup;
+module.exports.doRequest = doRequest;
 
-function setup(options, cb) {
+function doRequest(options, cb) {
     var preparedOptions = prepareOpt(options);
-    makeCall(preparedOptions, (err, res) => {
-        if (err) cb(err);
-        cb(null, res);
-    });
+    var protocol = preparedOptions.protocol.replace(":", "");
+    var req = require(protocol)
+        .request(preparedOptions, res => {
+            res.responseBuffer = "";
+            res.setEncoding("utf8");
+            res.on("data", data => {
+                res.responseBuffer += data;
+            });
+            res.on("end", () => {
+                cb(null, res);
+            });
+        })
+        .on("error", error => {
+            console.log("error??");
+            cb(error);
+        });
+    req.write("");
+    req.end();
 }
 
 function prepareOpt(options) {
     var urlObject = buildUrl(options);
-    var headers = {}
-    if (options.useKey) headers['user-key'] = apiKey
+    var headers = {};
+    if (options.useKey) {
+        headers["user-key"] = apiKey;
+    }
 
     return {
         method: options.method,
@@ -23,12 +39,7 @@ function prepareOpt(options) {
         hostname: urlObject.hostname,
         port: urlObject.port,
         protocol: urlObject.protocol
-    }
-}
-
-function testBuilder(options, cb) {
-    var url = buildUrl(options);
-    cb(null, url);
+    };
 }
 
 function buildUrl(options) {
@@ -36,32 +47,17 @@ function buildUrl(options) {
     var queryKeys = Object.keys(queryObj);
     var query = `${options.hostname}${options.path}?`;
     queryKeys.forEach((key, index) => {
-        if (typeof queryObj !== 'array') {
+        if (typeof queryObj !== "array") {
             query += `${key}=${queryObj[key]}`;
-
         } else {
             query += `${key}=${queryObj[key].join()}`;
         }
-        if (index < queryKeys.length - 1) query += '&';
+        if (index < queryKeys.length - 1) query += "&";
     });
-    return require('url').parse(query);
+    return require("url").parse(query);
 }
 
-function makeCall(options, cb) {
-    var protocol = options.protocol.replace(':', '');
-    var req = require(protocol).request(options, (res) => {
-        res.responseBuffer = '';
-        res.setEncoding('utf8');
-        res.on('data', (data) => {
-            res.responseBuffer += data;
-        });
-        res.on('end', () => {
-            cb(null, res);
-        });
-    }).on('error', (error) => {
-        console.log('error??');
-        cb(error);
-    });
-    req.write('');
-    req.end();
+function testBuilder(options, cb) {
+    var url = buildUrl(options);
+    cb(null, url);
 }

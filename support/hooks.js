@@ -1,3 +1,1 @@
-describe('hooks', function() {
-
-});
+describe("hooks", function() {});

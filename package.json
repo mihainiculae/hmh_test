@@ -2,7 +2,7 @@
   "name": "hmh_test_zomato_cities",
   "description": "test for the cities endpoint on zomato",
   "version": "0.0.1",
-  "author": "Mihai Niculae <mihai.niculae@woowteam.com>",
+  "author": "Mihai Niculae <niculaemc@gmail.com>",
   "scripts": {
     "test": "mocha"
   },

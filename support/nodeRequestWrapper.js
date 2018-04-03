@@ -1,6 +1,3 @@
-const zomatoHostname = 'https://developers.zomato.com';
-const zomatoCitiesPath = '/api/v2.1/cities';
-const defMethod = 'GET';
 var apiKey = require('../apiKey');
 
 module.exports.testBuilder = testBuilder;
@@ -39,8 +36,9 @@ function buildUrl(options) {
     var queryKeys = Object.keys(queryObj);
     var query = `${options.hostname}${options.path}?`;
     queryKeys.forEach((key, index) => {
-        if (typeof queryObj[key] == 'string') {
+        if (typeof queryObj !== 'array') {
             query += `${key}=${queryObj[key]}`;
+
         } else {
             query += `${key}=${queryObj[key].join()}`;
         }

@@ -4,8 +4,6 @@ const request = require('../support/nodeRequestWrapper');
 // call with parameter for errors
 // assert will be caught by default
 
-// 5601c03ccd25f1f5b370518c174796f2 <- zomato API key
-
 describe('Test the wrapper', function() {
     describe('When giving the wrapper an object with query params', function() {
         it('should return a valid url composed of those', function(done) {

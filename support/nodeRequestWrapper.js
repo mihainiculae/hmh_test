@@ -13,9 +13,9 @@ function setup(options, cb) {
 
 function prepareOpt(options) {
     var urlObject = buildUrl(options);
-    var headers = {
-        'user-key': apiKey
-    }
+    var headers = {}
+    if (options.useKey) headers['user-key'] = apiKey
+
     return {
         method: options.method,
         headers: headers,

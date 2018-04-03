@@ -15,7 +15,8 @@ describe('Acceptance tests', function() {
                 method: 'get',
                 queryObj: {
                     q: 'Dublin'
-                }
+                },
+                useKey: true
             }
             request.doRequest(requestObject, function(e, r) {
                 if (e) done(e);
@@ -32,7 +33,8 @@ describe('Acceptance tests', function() {
                 queryObj: {
                     lat: 53.3498,
                     lon: -6.2603
-                }
+                },
+                useKey: true
             }
             request.doRequest(requestObject, function(e, r) {
                 if (e) done(e);
@@ -48,7 +50,8 @@ describe('Acceptance tests', function() {
                 method: 'get',
                 queryObj: {
                     city_ids: ['306']
-                }
+                },
+                useKey: true
             }
             request.doRequest(requestObject, function(e, r) {
                 if (e) done(e);
@@ -65,7 +68,8 @@ describe('Acceptance tests', function() {
                 method: 'get',
                 queryObj: {
                     city_ids: city_ids
-                }
+                },
+                useKey: true
             }
             request.doRequest(requestObject, function(e, r) {
                 if (e) done(e);
@@ -82,10 +86,6 @@ describe('Acceptance tests', function() {
     describe('When requesting for cities specifying a max count', function() {
         it('the response should not surpass that max count', function(done) {
             var maxCities = 3;
-            var idArray = [];
-            for (let i = 0; i < 100; i++) {
-                idArray.push(i.toString);
-            }
             var requestObject = {
                 path: citiesPath,
                 hostname: zomatoHostname,
@@ -93,7 +93,8 @@ describe('Acceptance tests', function() {
                 queryObj: {
                     count: maxCities,
                     q: 'San Francisco'
-                }
+                },
+                useKey: true
             }
             request.doRequest(requestObject, function(e, r) {
                 if (e) done(e);
@@ -103,6 +104,24 @@ describe('Acceptance tests', function() {
             });
         });
     });
+    describe(`When requesting any info without an user key`, function() {
+        it('The response should have status code 403', function(done) {
+            var requestObject = {
+                path: citiesPath,
+                hostname: zomatoHostname,
+                method: 'get',
+                queryObj: {
+                    city_ids: ['306']
+                },
+                useKey: false
+            }
+            request.doRequest(requestObject, function(e, r) {
+                if (e) done(e);
+                assert.equal(r.statusCode, 403, `The status code was not 403, but was: ${r.statusCode}`);
+                done();
+            });
+        })
+    })
 });
 
 function checkOkCitiesResponse(response) {

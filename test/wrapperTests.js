@@ -1,8 +1,5 @@
 const assert = require('assert');
 const request = require('../support/nodeRequestWrapper');
-// call done() when done
-// call with parameter for errors
-// assert will be caught by default
 
 describe('Test the wrapper', function() {
     describe('When giving the wrapper an object with query params', function() {
@@ -85,7 +82,8 @@ describe('Test the wrapper', function() {
                 method: 'get',
                 queryObj: {
                     q: 'San Francisco'
-                }
+                },
+                useKey: true
             }
             request.doRequest(requestObject, function(err, res) {
                 if (err) done(err);
